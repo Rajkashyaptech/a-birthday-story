@@ -40,7 +40,7 @@ export function MemoryGallery() {
             <PolaroidCard
               memory={m}
               index={i}
-              rotate={[-3, 2.5, -1.5, 3, -2, 1.5][i % 6]}
+              rotate={([-3, 2.5, -1.5, 3, -2, 1.5][i % 6] ?? 0)}
               onOpen={() => setOpen(i)}
             />
           </div>
