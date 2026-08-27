@@ -44,19 +44,6 @@ function Index() {
   const storyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-  // Repeatedly looks for the badge and wipes it from memory once found
-    const interval = setInterval(() => {
-      const badge = document.getElementById("lovable-badge");
-      if (badge) {
-        badge.remove();
-        clearInterval(interval); // Destroys the interval once badge is gone
-      }
-    }, 300);
-
-    return () => clearInterval(interval); // Cleanup interval if component unmounts
-  }, []);
-
-  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [stage, runKey]);
 
