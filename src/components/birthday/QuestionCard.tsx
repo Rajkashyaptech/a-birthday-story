@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Question } from "@/config/birthday";
 
 export function QuestionCard({
@@ -15,19 +15,40 @@ export function QuestionCard({
   const [retryLabel, setRetryLabel] = useState<string | null>(null);
   const [showDelayed, setShowDelayed] = useState(!question.delayedPrompt);
 
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const lockedRef = useRef(false);
+  const doneRef = useRef(false);
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
+  const addTimer = useCallback((fn: () => void, ms: number) => {
+    const t = setTimeout(fn, ms);
+    timers.current.push(t);
+  }, []);
+
   useEffect(() => {
+    lockedRef.current = false;
+    doneRef.current = false;
     setReaction(null);
     setRetryLabel(null);
     setShowDelayed(!question.delayedPrompt);
-    if (!question.delayedPrompt) return undefined;
-    const t = setTimeout(() => setShowDelayed(true), 1100);
-    return () => clearTimeout(t);
-  }, [question]);
+    if (question.delayedPrompt) addTimer(() => setShowDelayed(true), 1100);
+    return () => {
+      timers.current.forEach(clearTimeout);
+      timers.current = [];
+    };
+  }, [question, index, addTimer]);
 
   const finish = (text: string) => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    lockedRef.current = true;
     setReaction(text);
     setRetryLabel(null);
-    setTimeout(onDone, 1500);
+    addTimer(() => {
+      if (!doneRef.current) return;
+      onDoneRef.current();
+    }, 1500);
   };
 
   return (
