@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const GLYPHS = ["❤️", "✨", "💖", "⭐", "🎀", "🫧"];
 
@@ -21,6 +21,10 @@ export function FloatingBits({ count = 14, className = "" }: { count?: number; c
       })),
     [count],
   );
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return (
     <div aria-hidden className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
