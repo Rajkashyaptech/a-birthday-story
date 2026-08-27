@@ -96,11 +96,14 @@ export function QuestionCard({
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.08 * i }}
               whileTap={{ scale: 0.95 }}
-              disabled={!!reaction}
+              disabled={!!reaction || !!retryLabel}
               onClick={() => {
+                if (lockedRef.current) return;
                 if (a.retry) {
+                  lockedRef.current = true;
                   setReaction(a.reaction);
-                  setTimeout(() => {
+                  addTimer(() => {
+                    lockedRef.current = false;
                     setReaction(null);
                     setRetryLabel(a.retryLabel ?? "Fine, YES 😭");
                   }, 1200);
