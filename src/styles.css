@@ -108,6 +108,24 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+
+  #lovable-badge,
+  [id*="lovable-badge"],
+  [class*="lovable-badge"],
+  aside#lovable-badge,
+  a[href*="lovable.dev"],
+  [data-lovable-badge] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    z-index: -9999 !important;
+  }
 }
 
 @utility glass {
