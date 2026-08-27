@@ -19,10 +19,9 @@ export function QuestionCard({
     setReaction(null);
     setRetryLabel(null);
     setShowDelayed(!question.delayedPrompt);
-    if (question.delayedPrompt) {
-      const t = setTimeout(() => setShowDelayed(true), 1100);
-      return () => clearTimeout(t);
-    }
+    if (!question.delayedPrompt) return undefined;
+    const t = setTimeout(() => setShowDelayed(true), 1100);
+    return () => clearTimeout(t);
   }, [question]);
 
   const finish = (text: string) => {
