@@ -13,11 +13,11 @@ export function FloatingBits({ count = 14, className = "" }: { count?: number; c
     () =>
       Array.from({ length: count }, (_, i) => ({
         glyph: GLYPHS[Math.floor(seeded(i, 3) * GLYPHS.length)],
-        left: seeded(i, 1) * 96,
-        top: seeded(i, 2) * 92,
-        size: 12 + seeded(i, 4) * 20,
-        delay: seeded(i, 5) * 5,
-        duration: 6 + seeded(i, 6) * 6,
+        left: +(seeded(i, 1) * 96).toFixed(2),
+        top: +(seeded(i, 2) * 92).toFixed(2),
+        size: Math.round(12 + seeded(i, 4) * 20),
+        delay: +(seeded(i, 5) * 5).toFixed(2),
+        duration: +(6 + seeded(i, 6) * 6).toFixed(2),
       })),
     [count],
   );
@@ -44,10 +44,10 @@ export function FloatingHearts({ active }: { active: boolean }) {
   const hearts = useMemo(
     () =>
       Array.from({ length: 26 }, (_, i) => ({
-        left: seeded(i, 11) * 92 + 2,
-        size: 18 + seeded(i, 12) * 26,
-        delay: seeded(i, 13) * 2.2,
-        drift: (seeded(i, 14) - 0.5) * 80,
+        left: +(seeded(i, 11) * 92 + 2).toFixed(2),
+        size: Math.round(18 + seeded(i, 12) * 26),
+        delay: +(seeded(i, 13) * 2.2).toFixed(2),
+        drift: Math.round((seeded(i, 14) - 0.5) * 80),
         glyph: seeded(i, 15) > 0.7 ? "💗" : seeded(i, 15) > 0.4 ? "❤️" : "💖",
       })),
     [],
